@@ -1,23 +1,16 @@
-from django.shortcuts import render,HttpResponse
-from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render, redirect
+from django.template import RequestContext
+from django.http import HttpResponseRedirect, HttpResponse
 from .models import File
-import os, datetime
+from django.contrib import messages
 
-# Create your views here.
 
-def index(request):
-    if request.method == 'POST' and request.FILES['file']:
-        upload_file = request.FILES['file']
-        extension = os.path.splitext(upload_file.name)[1]
-        rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
-        fss = FileSystemStorage()
-        filename = fss.save(rename, upload_file)
-        file = File(file=rename)
-        file.save()
-        upload_file_path = fss.path(filename)
-
-        return render(request, 'home/index.html', {
-            'upload_file_path': upload_file_path
-        })
-    else:
+def upload_file(request):
+    if request.method == 'POST':
+        file= request.FILES["file"]
+        document= File.objects.create(my_file=file)
+        document.save()
+        messages.success(request,"File uploaded successfully!")
         return render(request, 'home/index.html')
+
+    return render(request, 'home/index.html')
