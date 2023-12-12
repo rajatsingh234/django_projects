@@ -1,0 +1,24 @@
+{% extends 'home/base.html' %}
+{% block content %}
+
+<div class="container">
+  <h1>Awesome To-Do List</h1>
+  {% if tasks %}
+  <h1>Active Tasks</h1>
+  <ul>
+    {% for task in tasks %}
+    <li><a href="{{ school.pk }}">{{task}}</a></li>
+
+    <a href="{% url 'delete_task' pk=task.pk %}"><input type="submit" class="btn btn-danger" value="Delete Task"></a>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <h2>No Active tasks!</h2>
+  {% endif %}
+</div>
+
+  <div class="container">
+    <a class="btn btn-primary" href="{% url 'create_task' %}">Create New Task</a>
+
+    </div>
+{% endblock %}

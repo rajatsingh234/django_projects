@@ -1,0 +1,11 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% load bootstrap3 %}
+<h1>Awesome To-Do List</h1>
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+  <button type="submit">Add</button>
+</form>
+
+{% endblock %}
